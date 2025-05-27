@@ -40,7 +40,7 @@ if($user){
 			break;
 		//Lenguaje
 		case '70':
-			include('../content/.php');
+			include('../content/lenguaje_list.php');
 			break;
 		//Editorial
 		case '80':
@@ -48,7 +48,7 @@ if($user){
 			break;
 		//Autores
 		case '90':
-			include('../content/.php');
+			include('../content/autores_list.php');
 			break;
 	}	
 }

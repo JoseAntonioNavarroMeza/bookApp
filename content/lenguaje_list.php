@@ -33,7 +33,7 @@ $result = bd_consulta($consulta);
     ?>
     <tr>
       <td><?= $i ?></td>
-      <td><?= $row['nombreP'] ?></td>
+      <td><?= $row['nombreL'] ?></td>
       <td>
         <a class="botonBorrar" href="../base/index.php?op=73&id=<?= $row['id'] ?>" title="Borrar">
           <i class="fas fa-trash-alt"></i>

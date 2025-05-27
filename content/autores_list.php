@@ -1,6 +1,9 @@
 <?php
 $consulta = "SELECT autor.id, autor.nombre, pais.id, autor.comentarios as autor,nombreA,nacionalidad,comentarios
-FROM autor INNER JOIN pais ON autor.nacionalidad=pais.id order by nombreA";
+FROM autor 
+INNER JOIN pais ON autor.nacionalidad = pais.id 
+ORDER BY nombreA;
+";
 $result = bd_consulta($consulta);
 ?>
 <script type="text/javascript">
@@ -34,7 +37,7 @@ $result = bd_consulta($consulta);
     ?>
     <tr>
       <td><?= $i ?></td>
-      <td><?= $row['nombreP'] ?></td>
+      <td><?= $row['nombreA'] ?></td>
       <td>
         <a class="botonBorrar" href="../base/index.php?op=93&id=<?= $row['id'] ?>" title="Borrar">
           <i class="fas fa-trash-alt"></i>
