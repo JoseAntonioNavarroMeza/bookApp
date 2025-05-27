@@ -1,20 +1,3 @@
-<style media="screen">
-  #imgPortada,
-  #imgContraPortada {
-    display: inline-block;
-    width: 100px;
-  }
-
-  #numpagina,
-  #tipo_pasta,
-  #sobrecubierta {
-    width: 15%;
-  }
-
-  .archivos {
-    width: 50%
-  }
-</style>
 <form class="" action="../content/pais_new_commit.php" method="post">
   <div class="dato">
     <div class="etiqueta">

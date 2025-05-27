@@ -1,7 +1,7 @@
 <?php
 function bd_consulta($query)
 {
-	$hostname = "localhost";
+	$hostname = "127.0.0.1";
 	$user = "root";
 	$password = "";
 	$bd = "books";
