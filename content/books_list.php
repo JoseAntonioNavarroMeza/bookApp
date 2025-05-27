@@ -1,16 +1,18 @@
 <?php
-//   $consulta="SELECT book.id, isbn, titulo, autor.nombre as autor, tipo.tipo, lenguaje.lenguaje, book.stock, book.precio
-// from book left join autor_libro on book.id=autor_libro.id_libro, autor,tipo,lenguaje
-// where autor.id=autor_libro.id_autor and book.tipo=tipo.id and book.idioma=lenguaje.id";
-// $consulta="SELECT book.id, isbn, titulo, autor.nombre as autor, tipo.tipo, lenguaje.lenguaje, book.stock, book.precio
-// from book inner join tipo on book.tipo=tipo.id
-// inner join lenguaje on book.idioma=lenguaje.id
-// left join autor_libro on book.id=autor_libro.id_libro
-// left join autor on autor.id=autor_libro.id_autor";
-$consulta = "SELECT book.id, isbn, titulo, autor.nombre as autor, tipo.tipo, lenguaje.lenguaje, book.stock, book.precio
-from book inner join tipo on book.tipo=tipo.id
-inner join lenguaje on book.idioma=lenguaje.id
-inner join autor on autor.id=book.autor order by titulo";
+$orden = isset($_GET['orden']) ? $_GET['orden'] : 'titulo';
+$permitidos = ['isbn', 'titulo', 'autor', 'tipo', 'lenguaje', 'stock', 'precio'];
+if (!in_array($orden, $permitidos)) {
+  $orden = 'titulo';
+}
+
+$consulta = "
+SELECT book.id, isbn, titulo, autor.nombre as autor, tipo.tipo as tipo, lenguaje.lenguaje as lenguaje, book.stock, book.precio
+FROM book 
+INNER JOIN tipo ON book.tipo = tipo.id
+INNER JOIN lenguaje ON book.idioma = lenguaje.id
+INNER JOIN autor ON autor.id = book.autor 
+ORDER BY $orden;
+";
 $result = bd_consulta($consulta);
 ?>
 <script type="text/javascript">
@@ -43,10 +45,18 @@ $result = bd_consulta($consulta);
       </a>
     </th>
   </tr>
-  <?php
+   <?php
   $i = 0;
+  $totalStock = 0;
+  $totalPrecio = 0;
+  $contador = 0;
+
+  mysqli_data_seek($result, 0);
   while ($row = mysqli_fetch_assoc($result)) {
     $i++;
+    $totalStock += $row['stock'];
+    $totalPrecio += $row['precio'];
+    $contador++;
     ?>
     <tr>
       <td><?= $i ?></td>
@@ -56,7 +66,7 @@ $result = bd_consulta($consulta);
       <td><?= $row['tipo'] ?></td>
       <td><?= $row['lenguaje'] ?></td>
       <td><?= $row['stock'] ?></td>
-      <td><?= $row['precio'] ?></td>
+      <td>$<?= number_format($row['precio'], 2) ?></td>
       <td>
         <a class="botonBorrar" href="../base/index.php?op=13&id=<?= $row['id'] ?>" title="Borrar">
           <i class="fas fa-trash-alt"></i>
@@ -67,14 +77,10 @@ $result = bd_consulta($consulta);
       </td>
     </tr>
   <?php } ?>
-  <tr id="resumen">
+  <tr style="font-weight: bold; background-color: #f2f2f2;">
+    <td colspan="2">Total de Libros: <?= $contador ?></td>
+    <td colspan="2">Stock: <?= $totalStock ?></td>
+    <td colspan="4">Promedio Precio: $<?= number_format($contador ? $totalPrecio / $contador : 0, 2) ?></td>
     <td></td>
-    <td></td>
-    <td id="totalL">Total de Libros:</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td id="totalS">Stock:</td>
-    <td id="promedioPrecio">Promedio:</td>
   </tr>
 </table>
