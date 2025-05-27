@@ -26,6 +26,9 @@ if($user){
 		case '30':
 			include('../content/proveedores_list.php');
 			break;
+			case '33'
+			include('../content/proveedores_new.php');
+			break;
 		//Compras
 		case '40':
 			include('../content/.php');
@@ -38,18 +41,30 @@ if($user){
 		case '60':
 			include('../content/pais_list.php');
 			break;
+			case '63':
+				include('../content/pais_delete.php');
+				break;
 		//Lenguaje
 		case '70':
 			include('../content/lenguaje_list.php');
 			break;
+			case '73':
+				include('../content/lenguaje_delete.php');
+				break;
 		//Editorial
 		case '80':
 			include('../content/editorial_list.php');
 			break;
+			case '83':
+				include('../content/editorial_delete.php');
+				break;
 		//Autores
 		case '90':
 			include('../content/autores_list.php');
 			break;
+			case '93':
+				include('../content/autores_delete.php');
+				break;
 	}	
 }
 
