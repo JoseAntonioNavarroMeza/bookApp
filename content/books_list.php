@@ -67,17 +67,14 @@ $result = bd_consulta($consulta);
       </td>
     </tr>
   <?php } ?>
-  <tr>
+  <tr id="resumen">
     <td></td>
     <td></td>
-    <td>El total de filas es <?= $i ?></td>
-    <td>
-    </td>
+    <td id="totalL">Total de Libros:</td>
     <td></td>
     <td></td>
-    <td>30</td>
-    <td>385.00</td>
-    <td><a href="#"></a></td>
-    <td><a href="#"></a></td>
+    <td></td>
+    <td id="totalS">Stock:</td>
+    <td id="promedioPrecio">Promedio:</td>
   </tr>
 </table>
