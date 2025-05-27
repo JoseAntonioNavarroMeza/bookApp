@@ -1,5 +1,6 @@
 <?php
-$consulta = "SELECT proveedor.rfc, proveedor.correo,proveedor,telefono, proveedor.nombre as nombreP FROM proveedor order by nombreP";
+$consulta = "SELECT proveedor.rfc as id, proveedor.correo,proveedor.telefono, proveedor.nombre as nombreP
+FROM proveedor order by nombreP";
 $result = bd_consulta($consulta);
 ?>
 <script type="text/javascript">
@@ -20,6 +21,8 @@ $result = bd_consulta($consulta);
   <tr>
     <th>#</th>
     <th>Nombre</th>
+    <th>Telefono</th>
+    <th>Correo</th>
     <th>
       <a class="botonAñadir" href="../base/index.php?op=31" title="Añadir nuevo">
         <i class="fas fa-plus"></i> <i class="fas fa-book"></i>
@@ -34,6 +37,8 @@ $result = bd_consulta($consulta);
     <tr>
       <td><?= $i ?></td>
       <td><?= $row['nombreP'] ?></td>
+      <td><?= $row['telefono'] ?></td>
+      <td><?= $row['correo'] ?></td>
       <td>
         <a class="botonBorrar" href="../base/index.php?op=33&id=<?= $row['id'] ?>" title="Borrar">
           <i class="fas fa-trash-alt"></i>
