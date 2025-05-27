@@ -14,10 +14,34 @@ ORDER BY $orden;
 ";
 $result = bd_consulta($consulta);
 ?>
+<?php
+// Orden por columna
+$orden = isset($_GET['orden']) ? $_GET['orden'] : 'titulo';
+$permitidos = ['isbn', 'titulo', 'autor', 'tipo', 'lenguaje', 'stock', 'precio'];
+if (!in_array($orden, $permitidos)) {
+  $orden = 'titulo';
+}
+
+// Dirección de orden
+$direccion = isset($_GET['dir']) ? strtolower($_GET['dir']) : 'asc';
+if (!in_array($direccion, ['asc', 'desc'])) {
+  $direccion = 'asc';
+}
+
+$consulta = "SELECT book.id, isbn, titulo, autor.nombre as autor, tipo.tipo as tipo, lenguaje.lenguaje as lenguaje, book.stock, book.precio
+FROM book 
+INNER JOIN tipo ON book.tipo = tipo.id
+INNER JOIN lenguaje ON book.idioma = lenguaje.id
+INNER JOIN autor ON autor.id = book.autor 
+ORDER BY $orden $direccion;
+";
+$result = bd_consulta($consulta);
+?>
 <script type="text/javascript">
   window.onload = function () {
     asociarEventos();
 
+    // Agrega orden descendente/ascendente alternando con doble click
     document.querySelector("th:nth-child(2)").ondblclick = () => ordenarPor("isbn");
     document.querySelector("th:nth-child(3)").ondblclick = () => ordenarPor("titulo");
     document.querySelector("th:nth-child(4)").ondblclick = () => ordenarPor("autor");
@@ -42,7 +66,18 @@ $result = bd_consulta($consulta);
 
   function ordenarPor(campo) {
     const url = new URL(window.location);
-    url.searchParams.set('orden', campo);
+    const currentOrden = url.searchParams.get('orden');
+    const currentDir = url.searchParams.get('dir') || 'asc';
+
+    if (currentOrden === campo) {
+      // Alterna la dirección
+      const nuevaDir = currentDir === 'asc' ? 'desc' : 'asc';
+      url.searchParams.set('dir', nuevaDir);
+    } else {
+      url.searchParams.set('orden', campo);
+      url.searchParams.set('dir', 'asc');  // Por defecto asc
+    }
+
     window.location = url;
   }
 </script>

@@ -1,39 +1,69 @@
 <?php
-$orden = isset($_GET['orden']) ? $_GET['orden'] : 'nombre';
-$permitidos = ['nombre']; // puedes agregar más si se desea ordenar por otros campos
+$orden = isset($_GET['orden']) ? $_GET['orden'] : 'pais.nombre';
+$permitidos = ['pais.nombre']; // nombre real de columna
 if (!in_array($orden, $permitidos)) {
-  $orden = 'nombre';
+  $orden = 'pais.nombre';
 }
 
-$consulta = "SELECT pais.id, pais.nombre as nombreP FROM pais order by $orden";
+$consulta = "SELECT pais.id, pais.nombre AS nombreP FROM pais ORDER BY $orden";
+$result = bd_consulta($consulta);
+?>
+
+<?php
+$orden = isset($_GET['orden']) ? $_GET['orden'] : 'pais.nombre';
+$permitidos = ['pais.nombre'];
+if (!in_array($orden, $permitidos)) {
+  $orden = 'pais.nombre';
+}
+
+$direccion = isset($_GET['dir']) ? strtolower($_GET['dir']) : 'asc';
+if (!in_array($direccion, ['asc', 'desc'])) {
+  $direccion = 'asc';
+}
+
+$consulta = "SELECT pais.id, pais.nombre AS nombreP FROM pais ORDER BY $orden $direccion";
 $result = bd_consulta($consulta);
 ?>
 <script type="text/javascript">
   window.onload = function () {
     asociarEventos();
 
-    document.querySelector("th:nth-child(2)").ondblclick = () => ordenarPor("nombre");
+    document.querySelector("th:nth-child(2)").ondblclick = function () {
+      ordenarPor("pais.nombre");
+    };
   };
 
   function asociarEventos() {
     var botones = document.getElementsByClassName("botonBorrar");
     for (var f = 0; f < botones.length; f++) {
-      var boton = botones[f];
-      boton.addEventListener("click", validar);
+      botones[f].addEventListener("click", validar);
     }
   }
 
   function validar(event) {
-    if (!confirm("Estas seguro de eliminar este registro?"))
+    if (!confirm("¿Estás seguro de eliminar este registro?")) {
       event.preventDefault();
+    }
   }
 
   function ordenarPor(campo) {
     const url = new URL(window.location);
-    url.searchParams.set('orden', campo);
+    const currentOrden = url.searchParams.get('orden');
+    const currentDir = url.searchParams.get('dir') || 'asc';
+
+    if (currentOrden === campo) {
+      const nuevaDir = currentDir === 'asc' ? 'desc' : 'asc';
+      url.searchParams.set('dir', nuevaDir);
+    } else {
+      url.searchParams.set('orden', campo);
+      url.searchParams.set('dir', 'asc');
+    }
+
     window.location = url;
   }
 </script>
+
+
 <table>
   <tr>
     <th>#</th>
