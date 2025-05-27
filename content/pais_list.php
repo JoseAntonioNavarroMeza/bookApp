@@ -1,0 +1,47 @@
+<?php
+$consulta = "SELECT pais.id, pais.nombre as nombreP FROM pais order by nombre";
+$result = bd_consulta($consulta);
+?>
+<script type="text/javascript">
+  function asociarEventos() {
+    var botones = document.getElementsByClassName("botonBorrar");
+    for (var f = 0; f < botones.length; f++) {
+      var boton = botones[f];
+      boton.addEventListener("click", validar);
+    }
+  }
+  function validar(event) {
+    if (!confirm("Estas seguro de eliminar este registro?"))
+      event.preventDefault();
+  }
+  window.addEventListener("load", asociarEventos);
+</script>
+<table>
+  <tr>
+    <th>#</th>
+    <th>Nombre</th>
+    <th>
+      <a class="botonAñadir" href="../base/index.php?op=11" title="Añadir nuevo">
+        <i class="fas fa-plus"></i> <i class="fas fa-book"></i>
+      </a>
+    </th>
+  </tr>
+  <?php
+  $i = 0;
+  while ($row = mysqli_fetch_assoc($result)) {
+    $i++;
+    ?>
+    <tr>
+      <td><?= $i ?></td>
+      <td><?= $row['nombreP'] ?></td>
+      <td>
+        <a class="botonBorrar" href="../base/index.php?op=63&id=<?= $row['id'] ?>" title="Borrar">
+          <i class="fas fa-trash-alt"></i>
+        </a>
+        <a class="botonModificar" href="../base/index.php?op=62&id=<?= $row['id'] ?>" title="Editar">
+          <i class="fas fa-pen-to-square"></i>
+        </a>
+      </td>
+    </tr>
+  <?php } ?>
+</table>

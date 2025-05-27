@@ -1,0 +1,51 @@
+table {
+  width: auto;                    /* Se adapta al contenido */
+  margin: 20px auto;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: center;
+  white-space: nowrap;           /* No saltar línea */
+}
+
+tr:first-child {
+  background-color: #dbd9d9;        /* Encabezado */
+  font-weight: bold;
+}
+
+tr:nth-child(odd):not(tr:first-child) {
+  background-color: #FFFFFF;    /* Filas impares en blanco */
+}
+
+tr:nth-child(even) {
+  background-color: #CAF7FF;    /* Filas pares en azul claro */
+}
+
+tr:hover:not(tr:first-child):not(tr:last-child) {
+  background-color: rgb(255, 255, 100);     /* Hover en amarillo */
+}
+
+a.botonBorrar, a.botonModificar, a.botonAñadir {
+  color: #333;
+  margin: 0 10px;       /* Más espacio entre los botones */
+  font-size: 22px;       /* Tamaño más grande */
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a.botonBorrar:hover {
+  color: red;
+}
+
+a.botonModificar:hover {
+  color: orange;
+}
+
+a.botonAñadir:hover {
+  color: green;
+}

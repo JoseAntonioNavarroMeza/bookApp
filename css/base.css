@@ -1,0 +1,58 @@
+header {
+  text-align: center;
+  padding: 0%;
+  margin: 0%;
+}
+
+div{
+  display: inline-block;
+  width: 10%;
+}
+h1,
+h2 {
+  background-color: #ffff7d;
+  padding: 0%;
+  margin: 0px;
+}
+/* Estilo general del menú */
+#menu_box {
+  background-color: #3f6387; /* azul oscuro elegante */
+  padding: 10px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+}
+
+/* Lista horizontal */
+#menu_box ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Elementos individuales del menú */
+#menu_box ul li {
+  margin: 0 10px;
+}
+
+/* Enlaces */
+#menu_box ul li a {
+  text-decoration: none;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Hover */
+#menu_box ul li a:hover {
+  background-color: #3498db;
+  transform: scale(1.05);
+}
+
+/* Enlace activo (puedes agregar clase "activo" al li o al a) */
+#menu_box ul li a.activo {
+  background-color: #2980b9;
+}
