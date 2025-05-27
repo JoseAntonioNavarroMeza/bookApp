@@ -21,7 +21,7 @@ $result = bd_consulta($consulta);
     <th>#</th>
     <th>Nombre</th>
     <th>
-      <a class="botonAñadir" href="../base/index.php?op=11" title="Añadir nuevo">
+      <a class="botonAñadir" href="../base/index.php?op=61" title="Añadir nuevo">
         <i class="fas fa-plus"></i> <i class="fas fa-book"></i>
       </a>
     </th>
