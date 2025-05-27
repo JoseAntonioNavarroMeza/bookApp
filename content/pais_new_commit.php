@@ -12,6 +12,5 @@ if (!empty($nombre)) {
   bd_consulta($consulta);
 }
 
-// Redirigimos de vuelta, puedes cambiar la ruta según tu estructura
-header('Location: ../base/index.php?op=20');
+header('Location: ../base/index.php?op=60');
 ?>
