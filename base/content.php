@@ -24,7 +24,7 @@ if($user){
 			break;
 		//Proveedores
 		case '30':
-			include('../content/.php');
+			include('../content/proveedores_list.php');
 			break;
 		//Compras
 		case '40':

@@ -1,5 +1,5 @@
 <?php
-$consulta = "SELECT proveedor.rfc, proveedor.correo,proveedor,telefono, proveedor.nombre as nombreP FROM lenguaje order by lenguaje";
+$consulta = "SELECT proveedor.rfc, proveedor.correo,proveedor,telefono, proveedor.nombre as nombreP FROM proveedor order by nombreP";
 $result = bd_consulta($consulta);
 ?>
 <script type="text/javascript">
