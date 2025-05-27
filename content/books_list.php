@@ -5,8 +5,7 @@ if (!in_array($orden, $permitidos)) {
   $orden = 'titulo';
 }
 
-$consulta = "
-SELECT book.id, isbn, titulo, autor.nombre as autor, tipo.tipo as tipo, lenguaje.lenguaje as lenguaje, book.stock, book.precio
+$consulta = "SELECT book.id, isbn, titulo, autor.nombre as autor, tipo.tipo as tipo, lenguaje.lenguaje as lenguaje, book.stock, book.precio
 FROM book 
 INNER JOIN tipo ON book.tipo = tipo.id
 INNER JOIN lenguaje ON book.idioma = lenguaje.id
@@ -16,6 +15,18 @@ ORDER BY $orden;
 $result = bd_consulta($consulta);
 ?>
 <script type="text/javascript">
+  window.onload = function () {
+    asociarEventos();
+
+    document.querySelector("th:nth-child(2)").ondblclick = () => ordenarPor("isbn");
+    document.querySelector("th:nth-child(3)").ondblclick = () => ordenarPor("titulo");
+    document.querySelector("th:nth-child(4)").ondblclick = () => ordenarPor("autor");
+    document.querySelector("th:nth-child(5)").ondblclick = () => ordenarPor("tipo");
+    document.querySelector("th:nth-child(6)").ondblclick = () => ordenarPor("lenguaje");
+    document.querySelector("th:nth-child(7)").ondblclick = () => ordenarPor("stock");
+    document.querySelector("th:nth-child(8)").ondblclick = () => ordenarPor("precio");
+  };
+
   function asociarEventos() {
     var botones = document.getElementsByClassName("botonBorrar");
     for (var f = 0; f < botones.length; f++) {
@@ -23,12 +34,19 @@ $result = bd_consulta($consulta);
       boton.addEventListener("click", validar);
     }
   }
+
   function validar(event) {
     if (!confirm("Estas seguro de eliminar este registro?"))
       event.preventDefault();
   }
-  window.addEventListener("load", asociarEventos);
+
+  function ordenarPor(campo) {
+    const url = new URL(window.location);
+    url.searchParams.set('orden', campo);
+    window.location = url;
+  }
 </script>
+
 <table>
   <tr>
     <th>#</th>
@@ -45,7 +63,7 @@ $result = bd_consulta($consulta);
       </a>
     </th>
   </tr>
-   <?php
+  <?php
   $i = 0;
   $totalStock = 0;
   $totalPrecio = 0;

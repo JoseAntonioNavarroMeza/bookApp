@@ -1,8 +1,20 @@
 <?php
-$consulta = "SELECT pais.id, pais.nombre as nombreP FROM pais order by nombre";
+$orden = isset($_GET['orden']) ? $_GET['orden'] : 'nombre';
+$permitidos = ['nombre']; // puedes agregar más si se desea ordenar por otros campos
+if (!in_array($orden, $permitidos)) {
+  $orden = 'nombre';
+}
+
+$consulta = "SELECT pais.id, pais.nombre as nombreP FROM pais order by $orden";
 $result = bd_consulta($consulta);
 ?>
 <script type="text/javascript">
+  window.onload = function () {
+    asociarEventos();
+
+    document.querySelector("th:nth-child(2)").ondblclick = () => ordenarPor("nombre");
+  };
+
   function asociarEventos() {
     var botones = document.getElementsByClassName("botonBorrar");
     for (var f = 0; f < botones.length; f++) {
@@ -10,11 +22,17 @@ $result = bd_consulta($consulta);
       boton.addEventListener("click", validar);
     }
   }
+
   function validar(event) {
     if (!confirm("Estas seguro de eliminar este registro?"))
       event.preventDefault();
   }
-  window.addEventListener("load", asociarEventos);
+
+  function ordenarPor(campo) {
+    const url = new URL(window.location);
+    url.searchParams.set('orden', campo);
+    window.location = url;
+  }
 </script>
 <table>
   <tr>
