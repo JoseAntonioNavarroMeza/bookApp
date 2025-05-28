@@ -1,25 +1,34 @@
 <?php
 include('../base/bd.php');
 
-// Recoger y limpiar el dato
-$nombre = isset($_POST['editorial']) ? trim($_POST['editorial']) : '';
+// Recoger y validar los datos del formulario
+$nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
+$telefono = isset($_POST['telefono']) ? trim($_POST['telefono']) : '';
+$correo = isset($_POST['correo']) ? trim($_POST['correo']) : '';
 
-// Escapar comillas simples
-$nombre_limpio = str_replace("'", "''", $nombre);
-
-// Verificar duplicado
-$sql = "SELECT editorial FROM editorial WHERE LOWER(TRIM(editorial)) = LOWER(TRIM('$nombre_limpio'))";
-$resultado = bd_consulta($sql);
-
-if (mysqli_num_rows($resultado) > 0) {
-    header('Location: ../base/index.php?op=80&error=repetido');
+// Verificar datos obligatorios
+if (empty($nombre) || empty($telefono)) {
+    header('Location: ../base/index.php?op=20&error=datos');
     exit;
 }
 
-// Insertar si todo está bien
-$sql_insert = "INSERT INTO editorial (editorial) VALUES ('$nombre_limpio')";
-bd_consulta($sql_insert);
+// Verificar si el teléfono ya existe
+$check_query = "SELECT telefono FROM cliente WHERE telefono = '$telefono'";
+$check_result = bd_consulta($check_query);
 
-header('Location: ../base/index.php?op=80');
+if (mysqli_num_rows($check_result) > 0) {
+    header('Location: ../base/index.php?op=20&error=repetido');
+    exit;
+}
+
+// Insertar el nuevo cliente
+$insert_query = "INSERT INTO cliente (nombre, telefono, correo) 
+                 VALUES ('$nombre', '$telefono', " . ($correo ? "'$correo'" : "NULL") . ")";
+
+if (bd_consulta($insert_query)) {
+    header('Location: ../base/index.php?op=20&success=creado');
+} else {
+    header('Location: ../base/index.php?op=20&error=insertar');
+}
 exit;
 ?>
