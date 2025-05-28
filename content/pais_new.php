@@ -30,3 +30,12 @@
   </div>
 </form>
 
+<style>
+.form-header {
+  margin: 20px 0;
+  padding: 10px;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  text-align: center;
+}
+</style>

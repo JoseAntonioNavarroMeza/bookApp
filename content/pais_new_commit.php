@@ -1,6 +1,12 @@
 <?php
 include('../base/bd.php');
 
+// Depuración: Habilita errores
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+$nombre = trim($_POST['nombre']);
+
 // Validación básica
 if (empty($nombre)) {
     header('Location: ../base/index.php?op=60&error=vacio');
