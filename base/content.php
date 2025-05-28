@@ -2,10 +2,11 @@
 $option = $_GET['op'] ?? '10';
 if ($user) {
 	switch ($option) {
-		//Libros
+		
 		case '00':
 			include('salir.php');
 			break;
+		//Libros
 		case '10':
 			include('../content/books_list.php');
 			break;
@@ -17,6 +18,19 @@ if ($user) {
 			break;
 		case '13':
 			include('../content/book_delete.php');
+			break;
+		//Usuarios
+		case '02':
+			include('../content/usuario_list.php');
+			break;
+		case '03':
+			include('../content/usuario_new.php');
+			break;
+		case '04':
+			include('../content/book_modify.php');
+			break;
+		case '05':
+			include('../content/usuario_delete.php');
 			break;
 		//Clientes
 		case '20':

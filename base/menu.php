@@ -9,6 +9,7 @@
 		<li><a href="index.php?op=70">Lenguaje</a></li>
 		<li><a href="index.php?op=80">Editorial</a></li>
 		<li><a href="index.php?op=90">Autores</a></li>
+		<li><a href="index.php?op=02">Usuarios</a></li>
 		<li><a href="index.php?op=00">Salir</a></li>
 	</ul>
 </nav>
