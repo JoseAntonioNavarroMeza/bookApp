@@ -1,4 +1,15 @@
 <?php
+if (isset($_GET['error'])) {
+    if ($_GET['error'] === 'repetido') {
+        echo '<script>alert("El registro ya existe, intenta uno diferente");</script>';
+    }
+}
+
+$orden = isset($_GET['orden']) ? $_GET['orden'] : 'editorial.editorial';
+$permitidos = ['editorial.editorial']; // nombre real de columna
+if (!in_array($orden, $permitidos)) {
+  $orden = 'editorial.editorial';
+}
 $consulta = "SELECT editorial.id, editorial.editorial as nombreE FROM editorial order by editorial";
 $result = bd_consulta($consulta);
 ?>

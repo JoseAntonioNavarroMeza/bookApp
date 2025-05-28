@@ -1,4 +1,15 @@
 <?php
+if (isset($_GET['error'])) {
+    if ($_GET['error'] === 'repetido') {
+        echo '<script>alert("El registro ya existe, intenta uno diferente");</script>';
+    }
+}
+
+$orden = isset($_GET['orden']) ? $_GET['orden'] : 'lenguaje.lenguaje';
+$permitidos = ['lenguaje.lenguaje']; // nombre real de columna
+if (!in_array($orden, $permitidos)) {
+  $orden = 'lenguaje.lenguaje';
+}
 $consulta = "SELECT lenguaje.id, lenguaje.lenguaje as nombreL FROM lenguaje order by lenguaje";
 $result = bd_consulta($consulta);
 ?>
