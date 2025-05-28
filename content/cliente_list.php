@@ -2,13 +2,21 @@
 require_once('../base/bd.php');
 
 if (isset($_GET['error'])) {
-    if ($_GET['error'] === 'asociado') {
-        echo '<script>alert("No se puede eliminar, el cliente tiene ventas asociadas");</script>';
-    } elseif ($_GET['error'] === 'repetido') {
-        echo '<script>alert("El teléfono ya está registrado");</script>';
+    $mensajes = [
+        'asociado' => 'No se puede eliminar, el cliente tiene ventas asociadas',
+        'telefono_repetido' => 'El teléfono ya está registrado',
+        'correo_repetido' => 'El correo electrónico ya está registrado',
+        'telefono_invalido' => 'El teléfono debe tener 10 dígitos numéricos',
+        'correo_invalido' => 'El correo electrónico no tiene un formato válido',
+        'datos' => 'Faltan datos obligatorios'
+    ];
+    
+    if (isset($mensajes[$_GET['error']])) {
+        echo '<script>alert("'.$mensajes[$_GET['error']].'");</script>';
     }
 }
 
+// Resto del código permanece igual...
 $orden = isset($_GET['orden']) ? $_GET['orden'] : 'nombre';
 $direccion = isset($_GET['dir']) ? $_GET['dir'] : 'asc';
 
