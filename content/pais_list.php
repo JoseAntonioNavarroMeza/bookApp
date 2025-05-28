@@ -1,4 +1,10 @@
 <?php
+if (isset($_GET['error'])) {
+    if ($_GET['error'] === 'repetido') {
+        echo '<script>alert("El registro ya existe, intenta uno diferente");</script>';
+    }
+}
+
 $orden = isset($_GET['orden']) ? $_GET['orden'] : 'pais.nombre';
 $permitidos = ['pais.nombre']; // nombre real de columna
 if (!in_array($orden, $permitidos)) {
