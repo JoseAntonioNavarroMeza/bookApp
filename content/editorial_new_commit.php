@@ -1,17 +1,25 @@
 <?php
 include('../base/bd.php');
-include('../base/global.php');
 
-// Obtenemos el dato del formulario
-$editorial = $_POST['editorial'];
+// Recoger y limpiar el dato
+$nombre = isset($_POST['editorial']) ? trim($_POST['editorial']) : '';
 
-// Validamos que no venga vacío
-if (!empty($editorial)) {
-  // Insertamos en la tabla editorial
-  $consulta = 'INSERT INTO editorial (editorial) VALUES ("' . $editorial . '")';
-  bd_consulta($consulta);
+// Escapar comillas simples
+$nombre_limpio = str_replace("'", "''", $nombre);
+
+// Verificar duplicado
+$sql = "SELECT editorial FROM editorial WHERE LOWER(TRIM(editorial)) = LOWER(TRIM('$nombre_limpio'))";
+$resultado = bd_consulta($sql);
+
+if (mysqli_num_rows($resultado) > 0) {
+    header('Location: ../base/index.php?op=80&error=repetido');
+    exit;
 }
 
-// Redirigimos a la página donde se listan las editoriales
+// Insertar si todo está bien
+$sql_insert = "INSERT INTO editorial (editorial) VALUES ('$nombre_limpio')";
+bd_consulta($sql_insert);
+
 header('Location: ../base/index.php?op=80');
+exit;
 ?>

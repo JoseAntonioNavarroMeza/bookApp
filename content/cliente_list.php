@@ -1,31 +1,73 @@
 <?php
-$consulta = "SELECT cliente.nombre as nombreC, cliente.correo, cliente.telefono as id
-FROM cliente order by nombreC";
+require_once('../base/bd.php');
+
+if (isset($_GET['error'])) {
+    if ($_GET['error'] === 'asociado') {
+        echo '<script>alert("No se puede eliminar, el cliente tiene ventas asociadas");</script>';
+    } elseif ($_GET['error'] === 'repetido') {
+        echo '<script>alert("El teléfono ya está registrado");</script>';
+    }
+}
+
+$orden = isset($_GET['orden']) ? $_GET['orden'] : 'nombre';
+$direccion = isset($_GET['dir']) ? $_GET['dir'] : 'asc';
+
+$consulta = "SELECT telefono, nombre, correo FROM cliente ORDER BY $orden $direccion";
 $result = bd_consulta($consulta);
 ?>
+
 <script type="text/javascript">
+  window.onload = function() {
+    asociarEventos();
+
+    document.querySelector("th:nth-child(2)").ondblclick = function() {
+      ordenarPor("nombre");
+    };
+    
+    document.querySelector("th:nth-child(3)").ondblclick = function() {
+      ordenarPor("telefono");
+    };
+  };
+
   function asociarEventos() {
     var botones = document.getElementsByClassName("botonBorrar");
     for (var f = 0; f < botones.length; f++) {
-      var boton = botones[f];
-      boton.addEventListener("click", validar);
+      botones[f].addEventListener("click", validar);
     }
   }
+
   function validar(event) {
-    if (!confirm("Estas seguro de eliminar este registro?"))
+    if (!confirm("¿Estás seguro de eliminar este cliente?")) {
       event.preventDefault();
+    }
   }
-  window.addEventListener("load", asociarEventos);
+
+  function ordenarPor(campo) {
+    const url = new URL(window.location);
+    const currentOrden = url.searchParams.get('orden');
+    const currentDir = url.searchParams.get('dir') || 'asc';
+
+    if (currentOrden === campo) {
+      const nuevaDir = currentDir === 'asc' ? 'desc' : 'asc';
+      url.searchParams.set('dir', nuevaDir);
+    } else {
+      url.searchParams.set('orden', campo);
+      url.searchParams.set('dir', 'asc');
+    }
+
+    window.location = url;
+  }
 </script>
+
 <table>
   <tr>
     <th>#</th>
     <th>Nombre</th>
-    <th>Telefono</th>
+    <th>Teléfono</th>
     <th>Correo</th>
     <th>
-      <a class="botonAñadir" href="../base/index.php?op=31" title="Añadir nuevo">
-        <i class="fas fa-plus"></i> <i class="fas fa-book"></i>
+      <a class="botonAñadir" href="../base/index.php?op=21" title="Añadir nuevo">
+        <i class="fas fa-plus"></i> <i class="fas fa-user"></i>
       </a>
     </th>
   </tr>
@@ -36,14 +78,14 @@ $result = bd_consulta($consulta);
     ?>
     <tr>
       <td><?= $i ?></td>
-      <td><?= $row['nombreC'] ?></td>
-      <td><?= $row['telefono'] ?></td>
-      <td><?= $row['correo'] ?></td>
+      <td><?= htmlspecialchars($row['nombre']) ?></td>
+      <td><?= htmlspecialchars($row['telefono']) ?></td>
+      <td><?= htmlspecialchars($row['correo']) ?></td>
       <td>
-        <a class="botonBorrar" href="../base/index.php?op=33&id=<?= $row['id'] ?>" title="Borrar">
+        <a class="botonBorrar" href="../base/index.php?op=23&telefono=<?= $row['telefono'] ?>" title="Borrar">
           <i class="fas fa-trash-alt"></i>
         </a>
-        <a class="botonModificar" href="../base/index.php?op=32&id=<?= $row['id'] ?>" title="Editar">
+        <a class="botonModificar" href="../base/index.php?op=22&telefono=<?= $row['telefono'] ?>" title="Editar">
           <i class="fas fa-pen-to-square"></i>
         </a>
       </td>
