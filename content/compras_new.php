@@ -18,7 +18,8 @@
 </div>
 
   <div id="librosCompra">
-    <div class="dato libro">
+  <div class="dato libro">
+    <div class="bloque-libro">
       <div class="etiqueta">
         <label for="libro_id[]">Libro:</label>
       </div>
@@ -48,6 +49,8 @@
       </div>
     </div>
   </div>
+</div>
+
 
   <div class="dato">
     <div class="etiqueta">
@@ -79,3 +82,33 @@
     container.appendChild(nuevoLibro);
   }
 </script>
+<style>
+.bloque-libro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.bloque-libro .etiqueta {
+  width: 100%;
+  max-width: 150px;
+  font-weight: bold;
+}
+
+.bloque-libro .control {
+  flex: 1;
+  min-width: 300px;
+}
+
+.bloque-libro select,
+.bloque-libro input {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+</style>
