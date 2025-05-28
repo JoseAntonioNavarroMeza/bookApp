@@ -78,7 +78,7 @@ $result = bd_consulta($consulta);
     <th>Nacionalidad</th>
     <th>
       <a class="botonAñadir" href="../base/index.php?op=91" title="Añadir nuevo">
-        <i class="fas fa-plus"></i> <i class="fas fa-book"></i>
+        <i class="fas fa-plus"></i> <i class="fas fa-user"></i>
       </a>
     </th>
   </tr>

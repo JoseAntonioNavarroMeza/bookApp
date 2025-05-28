@@ -58,10 +58,10 @@ if ($user) {
 			include('../content/proveedores_delete.php');
 		//Compras
 		case '40':
-			include('../content/compras.php');
+			include('../content/compras_list.php');
 			break;
 		case '41':
-			include('../content/_new.php');
+			include('../content/compras_new.php');
 			break;
 		case '42':
 			include('../content/_modify.php');
@@ -70,10 +70,10 @@ if ($user) {
 			include('../content/_delete.php');
 		//Ventas
 		case '50':
-			include('../content/ventas.php');
+			include('../content/ventas_list.php');
 			break;
 		case '51':
-			include('../content/_new.php');
+			include('../content/ventas_new.php');
 			break;
 		case '52':
 			include('../content/_modify.php');
