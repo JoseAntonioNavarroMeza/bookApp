@@ -1,12 +1,13 @@
-<style>
-.form-header {
-  margin: 20px 0;
-  padding: 10px;
-  color: #2c3e50;
-  border-bottom: 2px solid #3498db;
-  text-align: center;
-}
-</style>
+<?php if (isset($_GET['error'])): ?>
+  <script>
+    <?php if ($_GET['error'] === 'repetido'): ?>
+      alert("El registro ya existe, intenta uno diferente");
+    <?php elseif ($_GET['error'] === 'vacio'): ?>
+      alert("El campo no puede estar vacío");
+    <?php endif; ?>
+  </script>
+<?php endif; ?>
+
 <form class="" action="../content/pais_new_commit.php" method="post">
   <h2 class="form-header">NUEVO PAÍS</h2>
   
@@ -21,7 +22,7 @@
   
   <div class="dato">
     <div class="etiqueta">
-      <label for="">&nbsp;</label>
+      <label >&nbsp;</label>
     </div>
     <div class="control" id="botones">
       <button type="button" onclick="window.location.href='../base/index.php?op=60'">Cancelar</button>

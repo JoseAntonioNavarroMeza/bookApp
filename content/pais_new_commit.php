@@ -1,31 +1,20 @@
 <?php
 include('../base/bd.php');
 
-// Depuración: Habilita errores
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-$nombre = trim($_POST['nombre']);
-
 // Validación básica
 if (empty($nombre)) {
     header('Location: ../base/index.php?op=60&error=vacio');
     exit;
 }
 
-// Escapar caracteres peligrosos
+// Escapar comillas simples
 $nombre_limpio = str_replace("'", "''", $nombre);
 
-// Consulta mejorada para detectar duplicados
-$sql = "SELECT nombre 
-        FROM pais 
-        WHERE LOWER(TRIM(nombre)) = LOWER(TRIM('$nombre_limpio'))";
-
+// Verificar duplicado
+$sql = "SELECT nombre FROM pais WHERE LOWER(TRIM(nombre)) = LOWER(TRIM('$nombre_limpio'))";
 $resultado = bd_consulta($sql);
 
-// Verificar si hay resultados
 if (mysqli_num_rows($resultado) > 0) {
-    // Forzar la recarga sin caché
     header('Location: ../base/index.php?op=60&error=repetido&t=' . time());
     exit;
 }
