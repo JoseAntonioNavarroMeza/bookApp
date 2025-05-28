@@ -74,7 +74,7 @@ $result = bd_consulta($consulta);
     <th>Correo</th>
     <th>
       <a class="botonAñadir" href="../base/index.php?op=31" title="Añadir nuevo">
-        <i class="fas fa-plus"></i> <i class="fas fa-truck"></i>
+        <i class="fas fa-plus"></i> <i class="fas fa-book"></i>
       </a>
     </th>
   </tr>
