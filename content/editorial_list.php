@@ -21,7 +21,7 @@ $result = bd_consulta($consulta);
     <th>#</th>
     <th>Nombre</th>
     <th>
-      <a class="botonAñadir" href="../base/index.php?op=11" title="Añadir nuevo">
+      <a class="botonAñadir" href="../base/index.php?op=81" title="Añadir nuevo">
         <i class="fas fa-plus"></i> <i class="fas fa-book"></i>
       </a>
     </th>
@@ -35,10 +35,10 @@ $result = bd_consulta($consulta);
       <td><?= $i ?></td>
       <td><?= $row['nombreE'] ?></td>
       <td>
-        <a class="botonBorrar" href="../base/index.php?op=63&id=<?= $row['id'] ?>" title="Borrar">
+        <a class="botonBorrar" href="../base/index.php?op=83&id=<?= $row['id'] ?>" title="Borrar">
           <i class="fas fa-trash-alt"></i>
         </a>
-        <a class="botonModificar" href="../base/index.php?op=62&id=<?= $row['id'] ?>" title="Editar">
+        <a class="botonModificar" href="../base/index.php?op=82&id=<?= $row['id'] ?>" title="Editar">
           <i class="fas fa-pen-to-square"></i>
         </a>
       </td>

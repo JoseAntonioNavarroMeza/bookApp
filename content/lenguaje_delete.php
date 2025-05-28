@@ -1,6 +1,6 @@
 <?php
 $option = $_GET['id'];
-$consulta = "DELETE FROM 'lenguaje' WHERE id=$option";
+$consulta = "DELETE FROM lenguaje WHERE id=$option";
 
 $result = bd_consulta($consulta);
 if ($result) {
@@ -8,4 +8,5 @@ if ($result) {
 } else {
    echo "Error. El lenguaje no fue eliminado";
 }
+header('Location: ../base/index.php?op=70');
 ?>
