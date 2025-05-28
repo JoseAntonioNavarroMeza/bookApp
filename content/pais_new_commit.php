@@ -10,14 +10,19 @@ if (empty($nombre)) {
     exit;
 }
 
-// Escapar comillas simples
+// Escapar caracteres peligrosos
 $nombre_limpio = str_replace("'", "''", $nombre);
 
-// Verificar duplicado
-$sql = "SELECT nombre FROM pais WHERE LOWER(TRIM(nombre)) = LOWER(TRIM('$nombre_limpio'))";
+// Consulta mejorada para detectar duplicados
+$sql = "SELECT nombre 
+        FROM pais 
+        WHERE LOWER(TRIM(nombre)) = LOWER(TRIM('$nombre_limpio'))";
+
 $resultado = bd_consulta($sql);
 
+// Verificar si hay resultados
 if (mysqli_num_rows($resultado) > 0) {
+    // Forzar la recarga sin caché
     header('Location: ../base/index.php?op=60&error=repetido&t=' . time());
     exit;
 }
