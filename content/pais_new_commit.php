@@ -1,9 +1,6 @@
 <?php
 include('../base/bd.php');
 
-// Obtener el valor del formulario
-$nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
-
 // Validación básica
 if (empty($nombre)) {
     header('Location: ../base/index.php?op=60&error=vacio');
