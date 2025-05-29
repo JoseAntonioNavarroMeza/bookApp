@@ -20,7 +20,7 @@ FROM ventas v
 JOIN cliente c ON v.cliente = c.telefono
 JOIN detalle_venta dv ON v.id_venta = dv.id_venta
 JOIN book b ON dv.libro = b.id
-ORDER BY $orden $direccion";
+ORDER BY id_venta $direccion";
 
 $result = bd_consulta($consulta);
 ?>

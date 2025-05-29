@@ -29,7 +29,7 @@ $clientes = bd_consulta("SELECT telefono, nombre FROM cliente");
           <?php
           $libros = bd_consulta("SELECT id, titulo, stock FROM book");
           while ($row = mysqli_fetch_assoc($libros)) {
-            echo "<option value='{$row['id']}'>{$row['titulo']} -> {$row['stock']}</option>";
+            echo "<option value='{$row['id']}'>{$row['titulo']}  (Stock: {$row['stock']})</option>";
           }
           ?>
         </select>
