@@ -1,42 +1,28 @@
 <?php
-include('../base/bd.php');
+require_once('../base/bd.php');
 
-// Validar que todos los campos requeridos están presentes
-if (!isset($_POST['id']) || !isset($_POST['titulo']) || !isset($_POST['autor'])) {
-    header('Location: ../base/index.php?op=10&error=missing_fields');
+if (!isset($_POST['username_original'], $_POST['nombre'], $_POST['password'])) {
+    header('Location: ../base/index.php?op=04&error=datos&username=' . urlencode($_POST['username_original']));
     exit;
 }
 
-// Recoger y limpiar los datos
-$id = (int)$_POST['id'];
-$titulo = trim($_POST['titulo']);
-$autor = trim($_POST['autor']);
-$genero = isset($_POST['genero']) ? trim($_POST['genero']) : '';
-$anio = isset($_POST['anio']) ? (int)$_POST['anio'] : null;
+$username = addslashes($_POST['username_original']);
+$nombre = trim(addslashes($_POST['nombre']));
+$password = trim(addslashes($_POST['password']));
 
-// Validaciones básicas
-if (empty($titulo) || empty($autor)) {
-    header('Location: ../base/index.php?op=10&error=empty_fields');
+// Verificar si el nombre está repetido en otro usuario
+$verificar = "SELECT username FROM usuario WHERE nombre = '$nombre' AND username != '$username'";
+$resultado = bd_consulta($verificar);
+if (mysqli_num_rows($resultado) > 0) {
+    header('Location: ../base/index.php?op=04&error=repetido&username=' . urlencode($username));
     exit;
 }
 
-// Escapar los datos para SQL
-$titulo_limpio = mysqli_real_escape_string($conexion, $titulo);
-$autor_limpio = mysqli_real_escape_string($conexion, $autor);
-$genero_limpio = mysqli_real_escape_string($conexion, $genero);
-
-// Construir la consulta SQL
-$sql = "UPDATE book SET 
-        titulo = '$titulo_limpio',
-        autor = '$autor_limpio',
-        genero = ".($genero_limpio ? "'$genero_limpio'" : "NULL").",
-        anio = ".($anio ? $anio : "NULL")."
-        WHERE id = $id";
-
-if (bd_consulta($sql)) {
-    header('Location: ../base/index.php?op=10&success=book_updated');
+// Actualizar datos
+$actualizar = "UPDATE usuario SET nombre = '$nombre', password = '$password' WHERE username = '$username'";
+if (bd_consulta($actualizar)) {
+    header('Location: ../base/index.php?op=02');
+    exit;
 } else {
-    header('Location: ../base/index.php?op=10&error=update_failed');
+    die('Error al actualizar el usuario');
 }
-exit;
-?>
