@@ -17,7 +17,7 @@
   </div>
 </div>
 
-  <div id="librosCompra">
+<div id="librosCompra">
   <div class="dato libro">
     <div class="bloque-libro">
       <div class="etiqueta">
@@ -40,48 +40,39 @@
       <div class="control">
         <input type="number" name="cantidad[]" min="1" value="1" required>
       </div>
-
-      <div class="etiqueta">
-        <label for="precio_unitario[]">Precio unitario:</label>
-      </div>
-      <div class="control">
-        <input type="number" name="precio_unitario[]" min="0" value="0" required>
-      </div>
     </div>
   </div>
 </div>
 
-
-  <div class="dato">
-    <div class="etiqueta">
-      <label>&nbsp;</label>
-    </div>
-    <div class="control">
-      <button type="button" onclick="agregarLibroCompra()">Agregar otro libro</button>
-    </div>
+<div class="dato">
+  <div class="etiqueta">
+    <label>&nbsp;</label>
   </div>
-
-  <div class="dato">
-    <div class="etiqueta">
-      <label for="">&nbsp;</label>
-    </div>
-    <div class="control" id="botones">
-      <button type="reset">Cancelar</button>
-      <button type="submit">Registrar compra</button>
-    </div>
+  <div class="control">
+    <button type="button" onclick="agregarLibroCompra()">Agregar otro libro</button>
   </div>
+</div>
+
+<div class="dato">
+  <div class="etiqueta">
+    <label for="">&nbsp;</label>
+  </div>
+  <div class="control" id="botones">
+    <button type="reset">Cancelar</button>
+    <button type="submit">Registrar compra</button>
+  </div>
+</div>
 </form>
 
 <script>
   function agregarLibroCompra() {
     const container = document.getElementById("librosCompra");
     const nuevoLibro = container.firstElementChild.cloneNode(true);
-
-    // Limpiar valores
-    nuevoLibro.querySelectorAll("input").forEach(input => input.value = input.name.includes("cantidad") ? 1 : 0);
+    nuevoLibro.querySelectorAll("input[name='cantidad[]']").forEach(input => input.value = 1);
     container.appendChild(nuevoLibro);
   }
 </script>
+
 <style>
 .bloque-libro {
   display: flex;
@@ -110,5 +101,4 @@
   padding: 5px;
   box-sizing: border-box;
 }
-
 </style>

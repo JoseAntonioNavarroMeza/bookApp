@@ -5,12 +5,22 @@ include('../base/bd.php');
 $proveedor_id = $_POST['proveedor_id'];
 $libro_ids = $_POST['libro_id'];
 $cantidades = $_POST['cantidad'];
-$precios = $_POST['precio_unitario'];
 
-// 2. Calcular total
+// 2. Calcular total basado en precios de la base de datos
 $total = 0;
+$precios_oficiales = [];
+
 for ($i = 0; $i < count($libro_ids); $i++) {
-    $total += $cantidades[$i] * $precios[$i];
+    $libro = $libro_ids[$i];
+    $cantidad = $cantidades[$i];
+
+    // Obtener precio oficial del libro
+    $result = bd_consulta("SELECT precio FROM book WHERE id = $libro");
+    $row = mysqli_fetch_assoc($result);
+    $precio = $row['precio'];
+    $precios_oficiales[] = $precio;
+
+    $total += $precio * $cantidad;
 }
 
 // 3. Insertar compra principal
@@ -23,11 +33,11 @@ $result = bd_consulta("SELECT MAX(id_compra) AS id FROM compra");
 $row = mysqli_fetch_assoc($result);
 $id_compra = $row['id'];
 
-// 5. Insertar detalles de compra
+// 5. Insertar detalles de compra con precios oficiales
 for ($i = 0; $i < count($libro_ids); $i++) {
     $libro = $libro_ids[$i];
     $cantidad = $cantidades[$i];
-    $precio = $precios[$i];
+    $precio = $precios_oficiales[$i];
 
     $consultaDetalle = "INSERT INTO detalle_compra (id_compra, id_libro, cantidad, precio_unitario)
                         VALUES ($id_compra, $libro, $cantidad, $precio)";

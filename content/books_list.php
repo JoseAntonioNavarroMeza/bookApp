@@ -1,20 +1,4 @@
 <?php
-$orden = isset($_GET['orden']) ? $_GET['orden'] : 'titulo';
-$permitidos = ['isbn', 'titulo', 'autor', 'tipo', 'lenguaje', 'stock', 'precio'];
-if (!in_array($orden, $permitidos)) {
-  $orden = 'titulo';
-}
-
-$consulta = "SELECT book.id, isbn, titulo, autor.nombre as autor, tipo.tipo as tipo, lenguaje.lenguaje as lenguaje, book.stock, book.precio
-FROM book 
-INNER JOIN tipo ON book.tipo = tipo.id
-INNER JOIN lenguaje ON book.idioma = lenguaje.id
-INNER JOIN autor ON autor.id = book.autor 
-ORDER BY $orden;
-";
-$result = bd_consulta($consulta);
-?>
-<?php
 // Orden por columna
 $orden = isset($_GET['orden']) ? $_GET['orden'] : 'titulo';
 $permitidos = ['isbn', 'titulo', 'autor', 'tipo', 'lenguaje', 'stock', 'precio'];
@@ -60,7 +44,7 @@ $result = bd_consulta($consulta);
   }
 
   function validar(event) {
-    if (!confirm("Estas seguro de eliminar este registro?"))
+    if (!confirm("Estas seguro de eliminar este libro?"))
       event.preventDefault();
   }
 

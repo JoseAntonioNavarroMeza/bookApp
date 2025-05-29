@@ -49,7 +49,7 @@ $result = bd_consulta($consulta);
   }
 
   function validar(event) {
-    if (!confirm("¿Estás seguro de eliminar este registro?")) {
+    if (!confirm("¿Estás seguro de eliminar este autor?")) {
       event.preventDefault();
     }
   }
