@@ -27,7 +27,7 @@ if ($user) {
 			include('../content/usuario_new.php');
 			break;
 		case '04':
-			include('../content/book_modify.php');
+			include('../content/usuario_modify.php');
 			break;
 		case '05':
 			include('../content/usuario_delete.php');
@@ -64,10 +64,8 @@ if ($user) {
 			include('../content/compras_new.php');
 			break;
 		case '42':
-			include('../content/_modify.php');
+			include('../content/compras_modify.php');
 			break;
-		case '43':
-			include('../content/_delete.php');
 		//Ventas
 		case '50':
 			include('../content/ventas_list.php');
@@ -76,10 +74,8 @@ if ($user) {
 			include('../content/ventas_new.php');
 			break;
 		case '52':
-			include('../content/_modify.php');
+			include('../content/ventas_modify.php');
 			break;
-		case '53':
-			include('../content/_delete.php');
 		//Pais
 		case '60':
 			include('../content/pais_list.php');

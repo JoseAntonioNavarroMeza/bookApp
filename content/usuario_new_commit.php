@@ -19,11 +19,9 @@ if (mysqli_num_rows($resultado) > 0) {
     exit;
 }
 
-// Hash de la contraseña (usar password_hash en producción)
-$hashed_password = md5($password); // Nota: md5 no es seguro, usar password_hash() en aplicaciones reales
 
 // Insertar si todo está bien
-$sql_insert = "INSERT INTO usuario (username, password, nombre) VALUES ('$username_limpio', '$hashed_password', '$nombre_limpio')";
+$sql_insert = "INSERT INTO usuario (username, password, nombre) VALUES ('$username_limpio', '$password', '$nombre_limpio')";
 bd_consulta($sql_insert);
 
 header('Location: ../base/index.php?op=02');
