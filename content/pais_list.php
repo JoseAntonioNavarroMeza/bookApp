@@ -5,6 +5,10 @@ if (isset($_GET['error'])) {
     }
 }
 
+if (isset($_GET['error']) && $_GET['error'] === 'asociado') {
+    echo '<script>alert("No se puede eliminar el país porque está asociado a uno o más autores.");</script>';
+}
+
 $orden = isset($_GET['orden']) ? $_GET['orden'] : 'pais.nombre';
 $permitidos = ['pais.nombre']; // nombre real de columna
 if (!in_array($orden, $permitidos)) {

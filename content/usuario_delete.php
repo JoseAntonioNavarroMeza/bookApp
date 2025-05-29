@@ -1,11 +1,15 @@
 <?php
-$option = $_GET['id'];
-$consulta = "DELETE FROM 'usuario' WHERE id=$option";
+require_once('../base/bd.php');
 
-$result = bd_consulta($consulta);
-if ($result) {
-   echo "Usuario eliminado";
-} else {
-   echo "Error. El usuario no fue eliminado";
+if (isset($_GET['username'])) {
+    $username = $_GET['username'];
+    
+    $sql = "DELETE FROM usuario WHERE username = '$username'";
+    
+    if (bd_consulta($sql)) {
+        header('Location: ../base/index.php?op=02');
+    } else {
+        echo "Error al eliminar el usuario";
+    }
 }
 ?>

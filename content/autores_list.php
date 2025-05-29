@@ -1,6 +1,7 @@
 <?php
 require_once('../base/bd.php');
 
+// Manejo de alertas
 if (isset($_GET['error'])) {
     if ($_GET['error'] === 'asociado') {
         echo '<script>alert("No se puede eliminar, el autor tiene libros asociados");</script>';
@@ -9,9 +10,9 @@ if (isset($_GET['error'])) {
     }
 }
 
-// Sorting parameters
+// Parámetros para ordenar la tabla
 $orden = isset($_GET['orden']) ? $_GET['orden'] : 'autor.nombre';
-$permitidos = ['autor.nombre', 'pais.nombre']; // Allowed columns
+$permitidos = ['autor.nombre', 'pais.nombre']; // Columnas permitidas para ordenar
 if (!in_array($orden, $permitidos)) {
     $orden = 'autor.nombre';
 }
@@ -21,9 +22,12 @@ if (!in_array($direccion, ['asc', 'desc'])) {
     $direccion = 'asc';
 }
 
+// Consulta con JOIN para traer nacionalidad como nombre
 $consulta = "SELECT autor.id, autor.nombre AS nombreA, pais.nombre AS nombre_pais 
-             FROM autor INNER JOIN pais ON autor.nacionalidad = pais.id 
+             FROM autor 
+             INNER JOIN pais ON autor.nacionalidad = pais.id 
              ORDER BY $orden $direccion";
+
 $result = bd_consulta($consulta);
 ?>
 
@@ -31,7 +35,7 @@ $result = bd_consulta($consulta);
   window.onload = function() {
     asociarEventos();
 
-    // Set up sorting for columns
+    // Configurar ordenamiento al hacer doble click en encabezados
     document.querySelector("th:nth-child(2)").ondblclick = function() {
       ordenarPor("autor.nombre");
     };
@@ -71,7 +75,7 @@ $result = bd_consulta($consulta);
   }
 </script>
 
-<table>
+<table border="1" cellpadding="5" cellspacing="0">
   <tr>
     <th>#</th>
     <th>Nombre</th>
