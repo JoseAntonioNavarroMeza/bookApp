@@ -15,9 +15,15 @@ if (isset($_GET['error'])) {
     }
 }
 
-$orden = isset($_GET['orden']) ? $_GET['orden'] : 'nombreP';
+$orden = isset($_GET['orden']) ? $_GET['orden'] : 'rfc';
+$permitidos = ['rfc','nombre', 'telefono', 'correo'];
+if (!in_array($orden, $permitidos)) {
+    $orden = 'rfc'; // Valor por defecto
+}
 $direccion = isset($_GET['dir']) ? $_GET['dir'] : 'asc';
-
+if (!in_array($direccion, ['asc', 'desc'])) {
+  $direccion = 'asc';
+}
 $consulta = "SELECT proveedor.rfc as id, proveedor.correo, proveedor.telefono, proveedor.nombre as nombreP 
              FROM proveedor ORDER BY $orden $direccion";
 $result = bd_consulta($consulta);
@@ -57,17 +63,23 @@ $result = bd_consulta($consulta);
     asociarEventos();
     
     document.querySelector("th:nth-child(2)").ondblclick = function() {
+      ordenarPor("rfc");
+    };
+    document.querySelector("th:nth-child(3)").ondblclick = function() {
       ordenarPor("nombreP");
     };
-    
-    document.querySelector("th:nth-child(3)").ondblclick = function() {
+    document.querySelector("th:nth-child(4)").ondblclick = function() {
       ordenarPor("telefono");
+    };
+    document.querySelector("th:nth-child(5)").ondblclick = function() {
+      ordenarPor("correo");
     };
   });
 </script>
 
 <table>
   <tr>
+    <th>#</th>
     <th>RFC</th>
     <th>Nombre</th>
     <th>Teléfono</th>
@@ -79,9 +91,12 @@ $result = bd_consulta($consulta);
     </th>
   </tr>
   <?php
+  $i = 0;
   while ($row = mysqli_fetch_assoc($result)) {
+    $i++;
     ?>
     <tr>
+      <td><?= $i ?></td>
       <td><?= htmlspecialchars($row['id']) ?></td>
       <td><?= htmlspecialchars($row['nombreP']) ?></td>
       <td><?= htmlspecialchars($row['telefono']) ?></td>

@@ -42,7 +42,7 @@ if (isset($_GET['error'])) {
       <label for="rfc">RFC:</label>
     </div>
     <div class="control">
-      <input type="text" name="rfc" id="rfc" required maxlength="13" pattern="[A-Za-z0-9]{12,13}" value="<?= htmlspecialchars($proveedor['RFC']) ?>">
+      <input type="text" name="rfc" id="rfc" readonly value="<?= htmlspecialchars($proveedor['RFC']) ?>">
     </div>
   </div>
 

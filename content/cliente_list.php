@@ -18,9 +18,17 @@ if (isset($_GET['error'])) {
 
 // Resto del código permanece igual...
 $orden = isset($_GET['orden']) ? $_GET['orden'] : 'nombre';
+$permitidos = ['nombre', 'telefono', 'correo'];
+if (!in_array($orden, $permitidos)) {
+    $orden = 'nombre'; // Valor por defecto
+}
 $direccion = isset($_GET['dir']) ? $_GET['dir'] : 'asc';
+if (!in_array($direccion, ['asc', 'desc'])) {
+  $direccion = 'asc';
+}
 
-$consulta = "SELECT telefono, nombre, correo FROM cliente ORDER BY $orden $direccion";
+$consulta = "SELECT telefono, nombre, correo
+FROM cliente ORDER BY $orden $direccion";
 $result = bd_consulta($consulta);
 ?>
 
@@ -31,9 +39,11 @@ $result = bd_consulta($consulta);
     document.querySelector("th:nth-child(2)").ondblclick = function() {
       ordenarPor("nombre");
     };
-    
     document.querySelector("th:nth-child(3)").ondblclick = function() {
       ordenarPor("telefono");
+    };
+    document.querySelector("th:nth-child(3)").ondblclick = function() {
+      ordenarPor("correo");
     };
   };
 

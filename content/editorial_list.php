@@ -10,10 +10,38 @@ $permitidos = ['editorial.editorial']; // nombre real de columna
 if (!in_array($orden, $permitidos)) {
   $orden = 'editorial.editorial';
 }
-$consulta = "SELECT editorial.id, editorial.editorial as nombreE FROM editorial order by editorial";
+$direccion = isset($_GET['dir']) ? strtolower($_GET['dir']) : 'asc';
+if (!in_array($direccion, ['asc', 'desc'])) {
+  $direccion = 'asc';
+}
+
+$consulta = "SELECT editorial.id, editorial.editorial as nombreE 
+FROM editorial order by $orden $direccion";
 $result = bd_consulta($consulta);
 ?>
 <script type="text/javascript">
+  window.onload = function () {
+    asociarEventos();
+
+    // Agrega orden descendente/ascendente alternando con doble click
+    document.querySelector("th:nth-child(2)").ondblclick = () => ordenarPor("nombreE");
+  };
+  function ordenarPor(campo) {
+    const url = new URL(window.location);
+    const currentOrden = url.searchParams.get('orden');
+    const currentDir = url.searchParams.get('dir') || 'asc';
+
+    if (currentOrden === campo) {
+      // Alterna la dirección
+      const nuevaDir = currentDir === 'asc' ? 'desc' : 'asc';
+      url.searchParams.set('dir', nuevaDir);
+    } else {
+      url.searchParams.set('orden', campo);
+      url.searchParams.set('dir', 'asc');  // Por defecto asc
+    }
+
+    window.location = url;
+  }
   function asociarEventos() {
     var botones = document.getElementsByClassName("botonBorrar");
     for (var f = 0; f < botones.length; f++) {
@@ -25,7 +53,6 @@ $result = bd_consulta($consulta);
     if (!confirm("Estas seguro de eliminar este registro?"))
       event.preventDefault();
   }
-  window.addEventListener("load", asociarEventos);
 </script>
 <table>
   <tr>
