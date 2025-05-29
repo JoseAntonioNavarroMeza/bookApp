@@ -1,58 +1,49 @@
 <?php
-// ventas_new_commit.php
-include "../base/bd.php"; // Ajusta la ruta según tu proyecto
+include('../base/bd.php');
 
-// Recoger datos del formulario
+// 1. Obtener datos del formulario
 $cliente_id = $_POST['cliente_id'];
-$libro_ids = $_POST['libro_id'];           // Array
-$cantidades = $_POST['cantidad'];          // Array
-$precios_unitarios = $_POST['precio_unitario'];  // Array
+$libro_ids = $_POST['libro_id'];
+$cantidades = $_POST['cantidad'];
 
-// Validar que haya al menos un libro seleccionado
-if (empty($libro_ids) || !is_array($libro_ids)) {
-    die("No se seleccionaron libros.");
-}
-
-// Calcular total
+// 2. Calcular total basado en precios oficiales de la base de datos
 $total = 0;
-for ($i = 0; $i < count($libro_ids); $i++) {
-    $total += $cantidades[$i] * $precios_unitarios[$i];
-}
-
-// Insertar en tabla ventas
-$fecha = date('Y-m-d H:i:s');
-$sql_venta = "INSERT INTO ventas (fecha, cliente, total) VALUES (?, ?, ?)";
-$stmt = $mysqli->prepare($sql_venta);
-$stmt->bind_param("sid", $fecha, $cliente_id, $total);
-$stmt->execute();
-
-if ($stmt->affected_rows == 0) {
-    die("Error al insertar la venta.");
-}
-
-// Obtener el ID de la venta insertada
-$id_venta = $stmt->insert_id;
-$stmt->close();
-
-// Insertar en detalle_ventas
-$sql_detalle = "INSERT INTO detalle_ventas (id_venta, libro, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
-$stmt_detalle = $mysqli->prepare($sql_detalle);
+$precios_oficiales = [];
 
 for ($i = 0; $i < count($libro_ids); $i++) {
-    $libro_id = $libro_ids[$i];
+    $libro = $libro_ids[$i];
     $cantidad = $cantidades[$i];
-    $precio_unitario = $precios_unitarios[$i];
 
-    // Validar cantidades y precios positivos
-    if ($cantidad < 1 || $precio_unitario < 0) {
-        continue; // saltar registros inválidos
-    }
+    // Obtener precio oficial del libro
+    $result = bd_consulta("SELECT precio FROM book WHERE id = $libro");
+    $row = mysqli_fetch_assoc($result);
+    $precio = $row['precio'];
+    $precios_oficiales[] = $precio;
 
-    $stmt_detalle->bind_param("iiid", $id_venta, $libro_id, $cantidad, $precio_unitario);
-    $stmt_detalle->execute();
+    $total += $precio * $cantidad;
 }
 
-$stmt_detalle->close();
+// 3. Insertar venta principal
+$fecha = date('Y-m-d');
+$consultaVenta = "INSERT INTO ventas (fecha, cliente, total) VALUES ('$fecha', '$cliente_id', '$total')";
+bd_consulta($consultaVenta);
 
-echo "Venta registrada correctamente. ID Venta: $id_venta";
+// 4. Obtener el ID de la venta recién insertada
+$result = bd_consulta("SELECT MAX(id_venta) AS id FROM ventas");
+$row = mysqli_fetch_assoc($result);
+$id_venta = $row['id'];
+
+// 5. Insertar detalles de venta con precios oficiales
+for ($i = 0; $i < count($libro_ids); $i++) {
+    $libro = $libro_ids[$i];
+    $cantidad = $cantidades[$i];
+    $precio = $precios_oficiales[$i];
+
+    $consultaDetalle = "INSERT INTO detalle_venta (id_venta, libro, cantidad, precio_unitario)
+                        VALUES ($id_venta, $libro, $cantidad, $precio)";
+    bd_consulta($consultaDetalle);
+}
+
+// 6. Redirigir con mensaje
+header('Location: ../base/index.php?op=50&mensaje=venta_registrada');
 ?>
