@@ -14,7 +14,7 @@ $tipoPasta = $_POST['tipo_pasta'];
 $resumen = $_POST['resumen'];
 $autor = $_POST['autor'];
 $precio = $_POST['precio'];
-
+//eip
 $consulta = 'insert into book (titulo,tipo,paginas,editorial,isbn,pais,dimensiones,idioma,sobrecubierta,pasta_dura,resumen,precio,stock,autor)' .
   ' values( "' . $titulo . '",' . $tipo . ',' . $numPagina . ',' . $editorial . ',"' . $isbn . '",' . $pais . ',"' . $dimensiones[$dimension] . '",' . $lenguaje . ',' .
   $sobrecubierta . ',' . $tipoPasta . ',"' . $resumen . '",' . $precio . ',0,' . $autor . ')';
