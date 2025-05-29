@@ -1,9 +1,17 @@
 <?php
 if (isset($_GET['error'])) {
-    if ($_GET['error'] === 'repetido') {
-        echo '<script>alert("El registro ya existe, intenta uno diferente");</script>';
+    $mensajes = [
+        'repetido' => 'El registro ya existe, intenta uno diferente',
+        'asociado' => 'No se puede eliminar la editorial porque tiene libros asociados',
+        'borrado' => 'Error al intentar borrar la editorial'
+    ];
+
+    if (isset($mensajes[$_GET['error']])) {
+        echo '<script>alert("' . $mensajes[$_GET['error']] . '");</script>';
     }
 }
+
+
 
 $orden = isset($_GET['orden']) ? $_GET['orden'] : 'editorial.editorial';
 $permitidos = ['editorial.editorial']; // nombre real de columna
